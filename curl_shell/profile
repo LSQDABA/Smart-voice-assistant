@@ -1,0 +1,36 @@
+# Source configuration files from /etc/profile.d
+for i in /etc/profile.d/*.sh ; do
+	if [ -r "$i" ]; then
+		. $i
+	fi
+	unset i
+done
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+LD_LIBRARY_PATH=/lib:/lib:/usr/lib
+USER="`id -un`"
+LOGNAME=$USER
+HOME=/root
+PS1='[\u@\h \w]\#'
+
+export USER LOGNAME HOME PS1 PATH LD_LIBRARY_PATH
+
+
+export QTDIR=/usr/local/Qt-Embedded-5.7.0
+export PATH=$QTDIR/bin:$PATH
+export QT_QPA_PLATFORM_PLUGIN_PATH=$QTDIR/plugins
+export QT_QPA_PLATFORM_PATH=$QTDIR/plugins
+export QT_QPA_PLATFORM=linuxfb
+export QT_QPA_FONTDIR=/usr/share/fonts
+export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
+#export QT_QPA_GENERIC_PLUGINS=evdevtouch:/dev/event0
+export QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS=/dev/input/event0
+export QMLSCENE_DEVICE=softwarecontext
+export QML2_IMPORT_PATH=$QTDIR/qml
+
+ifconfig lo 127.0.0.1 up
+ifconfig eth0 up
+ifconfig  eth0  192.168.137.51  
+route  add  default  gw   192.168.137.1
+echo   'nameserver 114.114.114.114'  >    /etc/resolv.conf
+echo   'nameserver 144.144.144.144'  >>   /etc/resolv.conf
